@@ -3,6 +3,7 @@ CC = $(if $(FREEBSD-GE-10),clang,gcc)
 
 NAME = flisp
 SRCS = $(NAME).c builtins.c string.c equalhash.c table.c iostream.c builtins_math.c
+INCLDS = builtins_math.h
 OBJS = $(SRCS:%.c=%.o)
 DOBJS = $(SRCS:%.c=%.do)
 EXENAME = $(NAME)
@@ -27,10 +28,12 @@ test:
 %.do: %.c
 	$(CC) $(DEBUGFLAGS) -c $< -o $@
 
-flisp.o:  flisp.c cvalues.c operators.c types.c flisp.h print.c read.c equal.c
+flisp.o:  flisp.c cvalues.c operators.c types.c flisp.h print.c read.c equal.c cvalues.h
 flisp.do: flisp.c cvalues.c operators.c types.c flisp.h print.c read.c equal.c
 flmain.o: flmain.c flisp.h
 flmain.do: flmain.c flisp.h
+builtins_math.o: builtins_math.c builtins_math.h cvalues.h
+builtins.o: builtins.c builtins_table.c builtins_math.h
 
 $(LLT):
 	cd $(LLTDIR) && $(MAKE)
@@ -43,11 +46,11 @@ $(LIBTARGET).a: $(OBJS)
 	rm -rf $@
 	ar rs $@ $(OBJS)
 
-debug: $(DOBJS) $(LIBFILES) $(LIBTARGET).da flmain.do
+debug: $(DOBJS) $(LIBFILES) $(LIBTARGET).da flmain.do $(INCLDS)
 	$(CC) $(DEBUGFLAGS) $(DOBJS) flmain.do -o $(EXENAME) $(LIBS) $(LIBTARGET).da
 	$(MAKE) test
 
-release: $(OBJS) $(LIBFILES) $(LIBTARGET).a flmain.o
+release: $(OBJS) $(LIBFILES) $(LIBTARGET).a flmain.o $(INCLDS)
 	$(CC) $(SHIPFLAGS) $(OBJS) flmain.o -o $(EXENAME) $(LIBS) $(LIBTARGET).a
 
 clean:
