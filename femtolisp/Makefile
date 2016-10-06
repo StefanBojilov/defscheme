@@ -2,7 +2,7 @@ FREEBSD-GE-10 = $(shell test `uname` = FreeBSD -a `uname -r | cut -d. -f1` -ge 1
 CC = $(if $(FREEBSD-GE-10),clang,gcc)
 
 NAME = flisp
-SRCS = $(NAME).c builtins.c string.c equalhash.c table.c iostream.c
+SRCS = $(NAME).c builtins.c string.c equalhash.c table.c iostream.c builtins_math.c
 OBJS = $(SRCS:%.c=%.o)
 DOBJS = $(SRCS:%.c=%.do)
 EXENAME = $(NAME)

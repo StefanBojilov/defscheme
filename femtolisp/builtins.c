@@ -439,45 +439,7 @@ extern void stringfuncs_init(void);
 extern void table_init(void);
 extern void iostream_init(void);
 
-static builtinspec_t builtin_info[] = {
-    { "environment", fl_global_env },
-    { "constant?", fl_constantp },
-    { "top-level-value", fl_top_level_value },
-    { "set-top-level-value!", fl_set_top_level_value },
-    { "raise", fl_f_raise },
-    { "exit", fl_exit },
-    { "symbol", fl_symbol },
-    { "keyword?", fl_keywordp },
-
-    { "fixnum", fl_fixnum },
-    { "truncate", fl_truncate },
-    { "integer?", fl_integerp },
-    { "integer-valued?", fl_integer_valuedp },
-    { "nconc", fl_nconc },
-    { "append!", fl_nconc },
-    { "assq", fl_assq },
-    { "memq", fl_memq },
-    { "length", fl_length },
-
-    { "vector.alloc", fl_vector_alloc },
-
-    { "time.now", fl_time_now },
-    { "time.string", fl_time_string },
-    { "time.fromstring", fl_time_fromstring },
-
-    { "rand", fl_rand },
-    { "rand.uint32", fl_rand32 },
-    { "rand.uint64", fl_rand64 },
-    { "rand.double", fl_randd },
-    { "rand.float", fl_randf },
-
-    { "path.cwd", fl_path_cwd },
-    { "path.exists?", fl_path_exists },
-
-    { "os.getenv", fl_os_getenv },
-    { "os.setenv", fl_os_setenv },
-    { NULL, NULL }
-};
+#include "builtins_table.c"
 
 void builtins_init(void)
 {

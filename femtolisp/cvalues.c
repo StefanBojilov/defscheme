@@ -1,3 +1,5 @@
+#include "cvalues.h"
+
 #include "operators.c"
 
 #ifdef BITS64
@@ -1213,7 +1215,7 @@ static value_t fl_mul_any(value_t *args, u_int32_t nargs, int64_t Saccum)
     return return_from_uint64(Uaccum);
 }
 
-static int num_to_ptr(value_t a, fixnum_t *pi, numerictype_t *pt, void **pp)
+int num_to_ptr(value_t a, fixnum_t *pi, numerictype_t *pt, void **pp)
 {
     cprim_t *cp;
     if (isfixnum(a)) {
