@@ -1,0 +1,30 @@
+
+To build and install SXM:
+
+1.  `cd' to the directory containing the package's source code.
+Here you can either follow the steps as written below or type
+`make all' to do 2-4 in one step.
+
+2.  Type `make' to compile the engine. If you want to change
+`make' variables like CFLAGS, edit the Makefile first.
+
+3.  Type `make image' to build the heap image file (sxi).
+
+4. Type `make Formlist' to collect a list of top-level forms
+(this list is for reference only; it is not installed anywhere).
+
+5.  If you want to run self-tests, type `make test'.
+
+6.  Type `make install' to install the programs and man pages.
+By default, `make install' will install the package's files in
+`/usr/local/bin'.  You can specify an installation prefix
+other than `/usr/local' by overriding the default prefix like
+this:
+ 
+ make all prefix=~joe/bin
+ make install prefix=~joe/bin
+
+7.  You can remove the program binaries and object files from the
+source directory by typing `make clean'.  To remove all the files
+created by the building process type `make realclean'.
+

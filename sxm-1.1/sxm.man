@@ -1,0 +1,243 @@
+.\" File sxm.man:  Manual page template for SXM.
+.\" Replace ENGINE with the name of your runtime,
+.\" INTERP with the name of your interpreter image, and
+.\" BINDIR with the directory where they are installed.
+.ds s \fIsxm\fP
+.ds i \fIsxi\fP
+.ds ss \fISxm\fP
+.ds ii \fISxi\fP
+.if t .ds 5 \u5\d
+.if n .ds 5 ^5
+.ds ]W "sxm version 1.1"
+.TH SXM 1 "9 December 2001" esl
+.SH NAME
+sxm \- runtime for the Scheme language 
+.br
+sxi \- interpreter for the Scheme language
+.SH SYNOPSIS
+\fBENGINE\fP [ \fIoptions\fP ] \fIfile\fP ...
+.br
+\fBINTERP\fP \fIfile\fP ...
+.SH DESCRIPTION
+\*(ss (a.k.a. CXEMA) is an implementation of the Scheme programming language. 
+It consists of two programs: the runtime module (\*s) providing the core 
+functionality and the interpreter front-end (\*i) that implements the full 
+language on top of the runtime and provides the traditional interactive interface. 
+The language supported by \*i conforms to ANSI standard of Scheme and 
+extended definition of Scheme in R\*5RS report. \*(ii also supports some of 
+more recent SRFI extensions and many features found in the Chez Scheme
+implementation.
+.LP
+Normally the user invokes \*i optionally specifying one
+or more source files in the command line. The interpreter loads the
+input files in order via a standard \fBload\fP procedure and then enters the
+interactive mode (read-eval-print loop) interpreting the standard input.
+It prompts the user with the right angle bracket at the beginning 
+of the input line and waits until the complete expression is entered.
+Than the interpreter compiles the expression, evaluates it and prints the
+result. The loop is repeated until the end-of-file is reached.
+.LP
+If the \*(lq-s\*(rq option is specified and the interpreter exits normally
+via \fB(exit)\fP or by reaching the end of the standard input, the last
+state of the Scheme system (heap image) is saved to the file specified 
+after the \*(lq-s\*(rq option. Heap images preserve all runtime data created during
+the session except for the input state of file ports left opened at the end 
+of the session. To restore the state of the Scheme session saved
+in a heap image you may run \*s specifying the image file with
+the \*(lq-h\*(rq option. Running an image file directly has the same effect
+(you have to make sure that runtime module is at its standard
+location to make this work). The interpreter itself is also a
+heap image built from source files by \*s installer.
+.LP
+If you run \*s with no heap image specified, it will also
+attempt to load all input files and then enter the read-eval-print
+loop. However, the language \*s understands is not a full Scheme;
+its only purpose is to facilitate bootstrapping of the full 
+interpreter.  
+.SH OPTIONS
+\*(ss recognizes with the following command line options:
+.TP 1i
+.B \-h \fIfile\fP
+load heap image from \fIfile\fP
+.TP
+.B \-s \fIfile\fP
+save heap image on normal exit in \fIfile\fP
+.TP
+.B \-t
+initialize image for interactive use (ignored if \*(lq-h\*(rq)
+.TP
+.B \-e
+exit after loading files on command line (ignored if \*(lq-h\*(rq)
+.TP 
+.B \--
+treat rest of command line as file names (not options)
+.LP
+If the \*(lq-h\*(rq option is not present, \*s loads every file on the command
+line. This is usually done as a part of the bootstrap process; the
+files are used to upgrade the interpreter from \*(lqcore\*(rq to full Scheme.
+In this scenario, the \*(lq-e\*(rq option tells \*s to exit after the last input
+file is loaded and the \*(lq-s\*(rq option specifies the name of the resulting
+image file. If the image is intended for interactive use, it is
+also useful to specify the \*(lq-t\*(rq option. This will turn on support
+for session transcripts by forcing the saved image to use special
+console ports when it detects that the standard input and output
+streams are attached to a terminal.
+.LP
+If the \*(lq-h\*(rq option is specified, \*s restores the state saved in the
+specified image file. In this case, the \*(lq-t\*(rq and \*(lq-e\*(rq options are ignored
+and the files on the command line are loaded by standard \fBload\fP
+procedure. On normal exit, if the \*(lq-s\*(rq option is specified, the
+state of the system is saved as a new heap image file.
+.LP
+It is possible to prevent \*s from interpreting command line
+arguments as options by prefixing them with the \*(lq--\*(rq option. All
+arguments following the \*(lq--\*(rq option are treated as files, not
+options.
+.LP
+The execution of heap images starts with the call
+of the standard startup procedure stored as a value of
+the \fBscheme-start\fP parameter. To change the behavior of
+an image at startup time, a new procedure can be installed
+before the image is written to the file. Custom startup
+procedures may interpret command line arguments instead
+of treating them as files and replace standard read-eval-print 
+loop with a non-interactive calculation.
+.SH ANSI/R\*5RS CONFORMANCE
+The only known incompatibility with ANSI and R\*5RS Scheme
+specifications is the special treatment of assignments to
+certain built-in procedures. \*(ss inlines calls to a dozen of
+the most frequently used standard procedures like \fBcar\fP and
+\fBcdr\fP and, in an attempt to to preserve consistency, 
+makes top-level bindings of inline procedures immutable.   
+.SH SRFI SUPPORT
+\*(ss supports the following SRFIs:
+.TP 1i
+SRFI 0
+Feature-based conditional expansion construct
+.TP
+SRFI 6
+Basic String Ports
+.TP
+SRFI 8
+\fBreceive\fP: Binding to multiple values 
+.TP
+SRFI 9
+Defining Record Types
+.TP
+SRFI 11
+Syntax for receiving multiple values
+.TP
+SRFI 16
+Syntax for procedures of variable arity
+.SH COMPATIBILITY WITH CHEZ SCHEME
+\*(ss provides numerous language and programming environment extensions
+found in Chez Scheme v.6. There are still a lot of incompatibilities,
+however. They are listed below in Chez Scheme User's Guide order and
+with the corresponding section numbers:
+.TP 1i
+1.1
+the only supported reader extensions are square brackets (\fB[]\fP), 
+single escape char for symbols (\fB\e\fP), notation for boxes (\fB#&\fP),
+records (\fB#["type" field ...]\fP),
+multiline comments (\fB#| |#\fP), and two peculiar symbols (\fB1+\fP and \fB-1+\fP).
+.TP 
+2.3, 2.4
+no interactive/noninteractive inspectors;
+\fBinspect\fP can only be used to display stack contents
+.TP 
+3
+no foreign interface except for \fBsystem\fP and \fBprocess\fP
+.TP 
+5.2
+\*s has cheap but unsafe escaping continuations (\fBcall/esc\fP) instead of
+Chez Scheme's cheap and safe one-shot continuations (\fBcall/1cc\fP)  
+.TP 
+6.8
+only identifiers are supported as field specifiers for records; print methods
+for records are not supported either (but \fBreader-name\fP option is supported)
+.TP 
+7
+\*s has simplified numerical tower: only fixnums and flonums are supported;
+no extended math procedures are implemented except for bitwise operations on fixnums,
+\fBadd1\fP, \fBsub1\fP, \fBrandom\fP, \fBsinh\fP, \fBcosh\fP, and \fBtanh\fP. 
+.TP 
+8
+no generic ports, no \fBread-token\fP, no \fIif-exists\fP arguments to i/o
+procedures, no graph printing (\fB#n=\fP and \fB#n#\fP), no fasl output
+.TP 
+9.3
+no modules or extended \fBidentifier-syntax\fP (\*s uses syntax-case
+implementation from Chez Scheme v5.9f) 
+.TP 
+10.1
+interrupts cannot be disabled; critical sections and signal handlers
+are not supported
+.TP 
+10.2
+\*s does not compile to native code; \fBvisit\fP, \fBcompile-file\fP and friends
+are not implemented
+.TP 
+10.5
+heaps cannot be saved incrementally; all heaps are \*(lqlevel-0\*(rq
+.TP 
+10.6
+\fBstatistics\fP, \fBsstats\fP and statistics accessors are missing; in addition, there are
+no \fBcpu-time\fP and \fBreal-time\fP procedures (\*s has only \fBcurrent-time\fP)
+.TP 
+10.9
+no subset modes
+.TP 
+11.1
+simplified interface to garbage collector: only argument-less \fBcollect\fP is
+implemented
+.TP 
+11.2, 11.3
+weak pairs cannot be accessed by regular \fBcar\fP and \fBcdr\fP (but you can
+use \fB%car\fP and \fB%cdr\fP) and are not printed like regular pairs;
+guardians and object locks are not supported
+.TP 
+12
+\*(ss does not provide any files for compatibility with older (pre-6.0)
+versions of Chez Scheme.
+.SH FILES
+.ta \w'/usr/local/lib/sxm  'u+1i
+BINDIR/sxm	executable file
+.br
+BINDIR/sxi	executable file (heap image)
+.SH SEE ALSO
+.in +5
+.br
+.ti -5
+R. Kent Dybvig,
+\fIThe Scheme Programming Language, Second Edition\fP,
+Prentice-Hall (1996).
+.br
+.ti -5
+R. Kent Dybvig,
+\fIChez Scheme User's Guide\fP,
+Cadence Research Systems (1998).
+.br
+.ti -5
+IEEE Computer Society,
+\fIIEEE Standard for the Scheme Programming Language\fP,
+IEEE Std 1178-1990 (1991).
+.br
+.ti -5
+Daniel P. Friedman and Matthias Felleisen,
+\fIThe Little Schemer\fP, fourth edition,
+MIT Press (1996).
+.br
+.ti -5
+Harold Abelson and Gerald J. Sussman with Julie Sussman,
+\fIStructure and Interpretation  of Computer Programs,
+Second Edition\fP,
+MIT press (1996).
+.br
+.ti -5
+Richard Kelsey, Will Clinger and Jonathan Rees, eds.,
+\*(lqRevised\*5 Report on the Algorithmic Language Scheme,\*(rq
+Higher Order and Symbolic Computation 11, 1, 1999.
+.in -5
+.SH BUGS
+Send your bug reports and suggestions to 
+Sergei Egorov <\fIesl@acm.org\fP>.

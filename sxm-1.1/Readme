@@ -1,0 +1,89 @@
+
+SXM is a portable implementation of the Scheme Programming language.
+It conforms to IEEE/ANSI standard of Scheme and supports all features
+of the R5RS Report on Scheme. In addition, SXM supports numerous 
+features of Chez Scheme v6.0 and SRFIs 0, 6, 8, 9, 11, and 16.
+
+SXM is derived from David Michael Betz's XScheme v0.28. Due to the 
+loss of compatibility with the original (object system has been dropped) 
+and significant amount of modifications and additions (SXM is 4 times 
+bigger), I decided to treat it as a separate project with its own name.
+It still carries a lot of design decisions from the original though:
+
+- runtime system is written in portable C
+- minimal dependency on OS-specific features
+- no S-exp interpreter; Scheme code is compiled to byte code and then
+  executed via bytecode VM
+- mark-sweep garbage collector
+- simplified numerical tower (fixnums/flonums only)
+- heap image save/restore
+
+During its 10-year-long history as a hobby project, SXM acquired
+a lot of new features:
+
+- optimizing bytecode compiler written in Scheme and C ("Frobit")
+- support for multiple global environments ("locales")
+- extra data types (boxes, hash tables, weak pairs)
+- full support for IEEE/ANSI and R5RS specifications, including
+  hygienic macros, multiple return values, dynamic-wind, and eval.
+- optional Unicode support based on ANSI C's wide char library
+- convenient mechanism to extend the basic set of Scheme
+  procedures written in C
+- flexible mechanism for adding new kinds of ports
+- almost complete set of Chez Scheme features, including
+  syntax-case macro system (CS v5.9f), reader extensions,
+  parameters, interactive facilities, engines, and pretty-printing.
+- SXM 1.1 supports Chez Scheme's and SRFI 9 structures
+- extensive library of string functions
+- exceptions (based on ideas from '98 Baltimore Workshop)
+- support for several SRFIs (0, 6, 8, 9, 11, and 16).
+
+This distribution is a second public release of SXM. Bug reports, 
+comments, and suggestions can be sent to the author at esl@acm.org.
+
+Installation instructions in file Install.
+
+A list of top-level forms is in Formlist (built automatically).
+
+Recent changes are listed in file News (if present).
+
+Known bugs and things to do in the future are listed in Todo.
+
+SXM was tested on the following configurations:
+
+    Linux/i386/gcc
+    Linux/alpha/gcc
+    BSD/i386/gcc
+    Solaris/sparc/gcc
+    Plan9/i386/pcc
+    Cygwin/i386/gcc
+    WinNT/i386/msvc
+
+
+The SXM root directory should contain the following subdirectories:
+
+    doc            some documentation
+    optional       optional OS-specific components
+    scheme         run-time system sources
+    tests          r5rs and miscellaneous tests
+    win32          Win32-specific sources and projects
+    unicode        unicode support (Win32 only)
+    contrib        code contributed by various authors (optional)
+
+The SXM root directory should contain the following files:
+
+    Readme         this file
+    Install        installation instructions
+    News           ? recent changes
+    Todo           list of bugs and things to do
+    Makefile       makefile for GNU make
+    mkfile         makefile for Plan 9's mk
+    sx*.c          core SXM files
+    io*.c          SXM ports of various types
+    os*.c          OS-dependent procedures
+    *.c            top-level Scheme procedures
+    sxeme.h        C declarations and macros for SXM data structures
+    *.h            other headers
+    sxm.man        a Unix-style man page
+    sxm.spec       RPM spec
+

@@ -1,0 +1,73 @@
+Recent changes:
+
+December 9, 2001 (release candidate for v1.1)
+
+Fixes for bugs found during parallel FXM development:
+- wrong mode in popen call
+- sxae_type now handles NT_BOOLEAN
+- string-match? now correctly matches "foo" with "foo*"
+- get-output-string: gc error fixed (port is protected)
+- gc error in sxIntern: Scheme string in mksym (fixed)
+- restore-image bug: vmsp = 0 on restore (fixed)
+
+September 26, 2001
+
+Two minor fixes: testmutable(lst) in reverse! and correct error
+reporting in xlgaoport() 
+
+August 18, 2001
+
+Added support for SRFI-9: Defining Record Types.
+
+August 16, 2001
+
+Added built-in POSITION/POSV/POSQ and Chez-like record facilities
+(sans fancy field specifiers and custom printers). Fixed bug in 
+HAS-TABLE-REMOVE! (EQ? was used as test in all cases).
+
+April 19, 2001
+
+Character comparison predicates take one or more args now (were
+binary only). This is useful to check character ranges as in
+(char<=? #\a c #\z)
+
+April 8, 2001
+
+Extended syntax for characters (#\cXXXXX and "...\cXXXXXX;...",
+X stands for hex digit, 1 or more digits make up the character code).
+In SXM, this syntax coexists with C-like string escapes like \n \r ... 
+
+April 5, 2001
+
+Console port (Win2K) now returns eof on ^Z (as expected).
+Unicode console port (Win2K) now returns LF only, not CR,LF.
+Win2K console bug: pasted multiline text not ending in CR,LF
+is not processed correctly (workaround: always cut full lines)
+
+February 20, 2001
+
+1) Added %at primitive to access SOBJs at numerical addresses, i.e.
+if you get "Error in #<Code @a097468>: too few arguments.", try
+(disassemble (%at #xa097468))
+
+January 19, 2001
+
+1) Fixed optimizer bug (incorrect handling of ac/stack-lambda with 
+#!rest args). Now FROBIT marks such lambda forms as stack-lambda.
+
+2) Cast in osunix.c for C++ compilers (signal handlers)
+
+
+
+Brief history of SXM:
+
+2000       Chez & R5RS compatibility hacks; public release
+1999       Unicode support (NT), syntax-case 2 (from CS v5.9f)
+1998       optimizing display-based Frobit (versions ..-A)
+1997-1998  field tests: used as a Web service engine (via CGI)
+1995-1996  string library added, ports to Mac and various Unixes
+1994       experimental display-based versions of Frobit (versions 2-..)
+1993       tailored to ANSI C spec; automatic toplevel tables 
+1991-1992  first version of Frobit (optimizing bytecode compiler)
+1990       project started as a set of modifications to XScheme
+

@@ -1,0 +1,33 @@
+
+Copyright (c) 1990-2000 by Sergei Egorov.
+All rights reserved.
+
+Use of this software for non-commercial purposes is permitted provided
+that such use is acknowledged both in the software itself and in
+accompanying documentation.
+
+This software is based on XScheme which is Copyright (c) 1991, by 
+David Michael Betz, all rights reserved. Mr. Betz grants permission 
+for unrestricted non-commercial use. 
+
+Portions of the code belong to or benefit from ideas due to 
+R. Kent Dybvig, Alexander Osipenko, Andrew Pochinsky, and others.  
+These are indicated in the relevant source files.
+
+The code for portable implementation of syntax-case is accompanied
+by the following copyright notice:
+
+Copyright (c) 1992-1997 Cadence Research Systems
+Permission to copy this software, in whole or in part, to use this
+software for any lawful purpose, and to redistribute this software
+is granted subject to the restriction that all copies made of this
+software must include this copyright notice in full.  This software
+is provided AS IS, with NO WARRANTY, EITHER EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY
+OR FITNESS FOR ANY PARTICULAR PURPOSE.  IN NO EVENT SHALL THE
+AUTHORS BE LIABLE FOR CONSEQUENTIAL OR INCIDENTAL DAMAGES OF ANY
+NATURE WHATSOEVER.
+
+The r5rstest.ss file is distributed under the terms of the GNU General 
+Public License.
+

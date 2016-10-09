@@ -1,0 +1,14 @@
+SXM 1.1 wish list:
+
+- find a way to support inlining without making top-level
+  bindings protected (separate r5rs user locale?)
+
+- compile #primitive forms like #%(1 (68) (68 60) (114)) 
+  into closures
+
+- add command-line compiler (sxc)
+
+- Makefile: portable installation code? configure?
+
+- sxm.src: replace *global*s with parameters
+
