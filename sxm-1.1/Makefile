@@ -1,3 +1,9 @@
+# SB 
+# 1. changed prefix to `pwd` - may want to adjust it,
+# 2. Then compile with: make ; make install
+# 3. Note that names starting with + or - aren't accepted by sxm (bug in lexer design). Fix needed.
+#    define-syntax/syntax-rules  macros wokr. Couldn't find proper macros (defmacro style). 
+#    MK passes all tests after changing names statring with +/- to start with alpha chars.
 
 #
 # This is GNU Makefile for SXM (CXEMbI)
@@ -23,7 +29,7 @@ CDEFS  = CS=CS_ANSI $(CPPTABLES) SXMPATH=\"$(INSTALL_ROOT)$(bindir)/$(engine)\"
 CFLAGS = -Wall -pedantic -O2 $(CDEFS:%=-D%)
 
 # destinations for installer
-prefix=/usr/local
+prefix=$(shell pwd)/usr
 bindir=$(prefix)/bin
 mandir=$(prefix)/man
 manext=1
